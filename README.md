@@ -1,6 +1,8 @@
-<h1 align="center">
+<h2 align="center">
   <b>RAM: Retrieval-Based Affordance Transfer for Generalizable Zero-Shot Robotic Manipulation</b>
-</h1>
+
+  <b><i>CoRL 2024</i></b>
+</h2>
 
 This is the official code release of [RAM: Retrieval-Based Affordance Transfer for Generalizable Zero-Shot Robotic Manipulation](https://arxiv.org/abs/2407.04689).
 

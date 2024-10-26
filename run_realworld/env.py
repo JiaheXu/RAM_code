@@ -126,7 +126,7 @@ class MiniEnv():
         return gg
 
     ### affordance
-    def test_keypoint(self, rgb, pcd, pixel, dir):
+    def lift_affordance(self, rgb, pcd, pixel, dir):
         post_contact_dirs_2d, post_contact_dirs_3d = None, None
         partial_points = np.array(pcd.points)
         partial_colors = np.array(pcd.colors)

@@ -1,7 +1,7 @@
 <h2 align="center">
   <b>RAM: Retrieval-Based Affordance Transfer for Generalizable Zero-Shot Robotic Manipulation</b>
 
-  <b><i>CoRL 2024</i></b>
+  <b><i>CoRL 2024 (Oral Presentation)</i></b>
 </h2>
 
 This is the official code release of [RAM: Retrieval-Based Affordance Transfer for Generalizable Zero-Shot Robotic Manipulation](https://arxiv.org/abs/2407.04689).
@@ -79,7 +79,7 @@ This is the official code release of [RAM: Retrieval-Based Affordance Transfer f
 
 6. (Optional) Retrieval data
 
-    If you want to use the retrieval pipeline, please download the retrieval data from [Google Drive](./README.md) (link to be added soon) and unzip the data to `assets/data/`.
+    If you want to use the retrieval pipeline, please download the retrieval data from [Google Drive]() (link to be added soon) and unzip the data to `assets/data/`.
 
 ## Inference and Visualization
 

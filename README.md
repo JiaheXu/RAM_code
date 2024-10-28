@@ -79,7 +79,7 @@ This is the official code release of [RAM: Retrieval-Based Affordance Transfer f
 
 6. (Optional) Retrieval data
 
-    If you want to use the retrieval pipeline, please download the retrieval data from [Google Drive]() (link to be added soon) and unzip the data to `assets/data/`.
+    If you want to use the retrieval pipeline, please download the retrieval data from [Google Drive](https://drive.google.com/file/d/1Ta4MJioAlvrQiczQo-8A-PELRynhsHs1/view?usp=sharing) and unzip the data to `assets/data/`.
 
 ## Inference and Visualization
 

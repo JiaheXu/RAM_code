@@ -1,7 +1,7 @@
 <h2 align="center">
   <b>RAM: Retrieval-Based Affordance Transfer for Generalizable Zero-Shot Robotic Manipulation</b>
 
-  <b><i>CoRL 2024</i></b>
+  <b><i>CoRL 2024 (Oral Presentation)</i></b>
 </h2>
 
 This is the official code release of [RAM: Retrieval-Based Affordance Transfer for Generalizable Zero-Shot Robotic Manipulation](https://arxiv.org/abs/2407.04689).
@@ -12,9 +12,6 @@ This is the official code release of [RAM: Retrieval-Based Affordance Transfer f
     <img src="assets/img/teaser.png" width=100%>
 </div>
 
-## NEWS
-
-- [07/07/2024] We released the paper, project page, and code of RAM.
 
 ## Installation
 
@@ -80,13 +77,17 @@ This is the official code release of [RAM: Retrieval-Based Affordance Transfer f
     pip install -r requirements.txt
     ```
 
+6. (Optional) Retrieval data
+
+    If you want to use the retrieval pipeline, please download the retrieval data from [Google Drive](https://drive.google.com/file/d/1Ta4MJioAlvrQiczQo-8A-PELRynhsHs1/view?usp=sharing) and unzip the data to `assets/data/`.
+
 ## Inference and Visualization
 
 Run commands below to run the demo:
 
-```
+```bash
 export PYTHONPATH=$PWD
-python run_realworld/run.py --config configs/drawer_open.yaml
+python run_realworld/run.py --config configs/drawer_open.yaml # add --retrieve to enable retrieval
 ```
 
 After finished, you shall see printed 3D affordance results w/ grasp and visualization at `run_realworld/gym_outputs/drawer_open/` like below:
@@ -102,8 +103,8 @@ After finished, you shall see printed 3D affordance results w/ grasp and visuali
 ## TODO
 
 - [x] Release the method code and demo.
-- [ ] Release the retrieval pipeline and data.
-- [ ] More to come...
+- [x] Release the retrieval pipeline and data.
+- [ ] More to come... (Feel free to open issues and PRs!)
 
 **Please stay tuned for any updates of the dataset and code!**
 

@@ -10,6 +10,7 @@ from PIL import Image
 import glob, time
 from vision.featurizer.run_featurizer import transfer_affordance
 from vision.featurizer.utils.visualization import IMG_SIZE
+from subset_retrieval.subset_retrieve_pipeline import SubsetRetrievePipeline
 import argparse
 import traceback
 import matplotlib
@@ -37,14 +38,21 @@ def main(args):
     obj = cfgs['obj']
     prompt = cfgs['prompt']
     data_source = cfgs.get("DATA_SOURCE", "droid")
+    save_root = cfgs['SAVE_ROOT']
     
     grounded_dino_model, sam_predictor = prepare_gsam_model(device="cuda")
-    gym = MiniEnv(cfgs, grounded_dino_model, sam_predictor) 
-
-    save_root = cfgs['SAVE_ROOT']
-    points = rgb = None
+    gym = MiniEnv(cfgs, grounded_dino_model, sam_predictor)
+    
+    subset_retrieve_pipeline = SubsetRetrievePipeline(
+        subset_dir="assets/data",
+        save_root=save_root,
+        lang_mode='clip',
+        topk=5, 
+        crop=True,
+        data_source=data_source,
+    )
+    
     pcd = o3d.io.read_point_cloud("run_realworld/real_data/input/pcd.ply")
-    points = np.array(pcd.points)
     rgb = Image.open("run_realworld/real_data/input/rgb.png")
         
     tgt_img_PIL = rgb
@@ -61,11 +69,18 @@ def main(args):
     
     ######## src
     ####################### SOURCE DEMONSTRATION ########################
-    data_dict = np.load("run_realworld/real_data/demonstration/data.pkl", allow_pickle=True)
-    traj = data_dict['traj']
-    src_img_np = data_dict['masked_img']
-    src_img_PIL = Image.fromarray(src_img_np).convert('RGB')
-    src_img_PIL.save(f"{save_root}/src_img.png")
+    if not args.retrieve:
+        data_dict = np.load("run_realworld/real_data/demonstration/data.pkl", allow_pickle=True)
+        traj = data_dict['traj']
+        src_img_np = data_dict['masked_img']
+        src_img_PIL = Image.fromarray(src_img_np).convert('RGB')
+        src_img_PIL.save(f"{save_root}/src_img.png")
+    else:
+        # use retrieval to get src_path (or src image) and src trajectory in 2d space
+        _, top1_retrieved_data_dict = subset_retrieve_pipeline.retrieve(instruction, np.array(tgt_img_PIL))
+        traj = top1_retrieved_data_dict['traj']
+        src_img_np = top1_retrieved_data_dict['masked_img']
+        src_img_PIL = Image.fromarray(src_img_np).convert('RGB')
     ####################### SOURCE DEMONSTRATION ########################
 
     # scale cropped_traj to IMG_SIZE
@@ -82,7 +97,7 @@ def main(args):
             print('[ERROR] in transfer_affordance:', transfer_e)
 
     # contact point + post-contact direction
-    ret_dict = gym.test_keypoint(rgb, pcd, contact_point, post_contact_dir)
+    ret_dict = gym.lift_affordance(rgb, pcd, contact_point, post_contact_dir)
     
     print("3D Affordance:\n", ret_dict)
     
@@ -93,6 +108,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, required=True, help='path to the config file') # e.g. configs/drawer_open.yaml
     parser.add_argument('--seed', type=int, default=100)
+    parser.add_argument('--retrieve', action='store_true')
     args = parser.parse_args()
     
     main(args)
